@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Digital Signature</title>
+    <style>
+        /* 全局樣式 */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            background-color: #f5f5f5;
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        /* Header 樣式 */
+        header {
+            background-color: #2c3e50;
+            color: white;
+            padding: 1rem 2rem;
+            text-align: center;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+        
+        .header-info {
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+        
+        /* Main Container 樣式 */
+        .main-container {
+            flex: 1;
+            padding: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+            width: 100%;
+        }
+        
+        .signature-app {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+        
+        /* Controls 樣式 */
+        .controls {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .control-group {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        label {
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: #555;
+            font-size: 0.9rem;
+        }
+        
+        input, select {
+            padding: 0.5rem;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 0.9rem;
+        }
+        
+        /* Signature Pad 樣式 */
+        .signature-area {
+            margin: 1.5rem 0;
+        }
+        
+        .signature-pad-container {
+            position: relative;
+        }
+        
+        .signature-pad {
+            border: 2px dashed #ccc;
+            background-color: #f9f9f9;
+            cursor: crosshair;
+            margin: 0 auto;
+            touch-action: none; /* 防止觸控設備上的滾動 */
+        }
+        
+        .size-info {
+            text-align: right;
+            font-size: 0.8rem;
+            color: #777;
+            margin-top: 0.5rem;
+        }
+        
+        /* Buttons 樣式 */
+        .buttons {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1rem;
+            margin: 1.5rem 0;
+        }
+        
+        button {
+            padding: 0.75rem;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        
+        button:hover {
+            opacity: 0.9;
+            transform: translateY(-1px);
+        }
+        
+        .clear-btn {
+            background-color: #e74c3c;
+            color: white;
+        }
+        
+        .save-btn {
+            background-color: #2ecc71;
+            color: white;
+        }
+        
+        .download-btn {
+            background-color: #3498db;
+            color: white;
+        }
+        
+        .apply-btn {
+            background-color: #f39c12;
+            color: white;
+            grid-column: 1 / -1;
+        }
+        
+        /* Result 樣式 */
+        .signature-result {
+            margin-top: 2rem;
+            padding: 1.5rem;
+            background-color: #f8f9fa;
+            border-radius: 8px;
+            border: 1px solid #eee;
+        }
+        
+        .result-title {
+            margin-bottom: 1rem;
+            color: #2c3e50;
+            font-size: 1.1rem;
+        }
+        
+        #signatureImage {
+            max-width: 100%;
+            border: 1px solid #ddd;
+            margin-top: 1rem;
+            background-color: white;
+            padding: 0.5rem;
+        }
+        
+        /* Footer 樣式 */
+        footer {
+            background-color: #2c3e50;
+            color: white;
+            text-align: center;
+            padding: 1rem;
+            margin-top: auto;
+            font-size: 0.9rem;
+        }
+        
+        .copyright {
+            width: 100%;
+            margin-top: 1rem;
+            padding-top: 1rem;
+            font-size: 0.8rem;
+            opacity: 0.8;
+        }
+        
+        /* 響應式調整 */
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+            
+            .controls {
+                grid-template-columns: 1fr;
+            }
+            
+            .buttons {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header 區域 -->
+    <header>
+        <div class="header-content">
+            <div class="logo">Digital Signature</div>
+        </div>
+    </header>
+    
+    <!-- Main Container 區域 -->
+    <div class="main-container">
+        <div class="signature-app">
+            <!-- 控制面板 -->
+            <div class="controls">
+                <div class="control-group">
+                    <label for="widthInput">寬度 (px):</label>
+                    <input type="number" id="widthInput" min="100" max="1000" value="500">
+                </div>
+                <div class="control-group">
+                    <label for="heightInput">高度 (px):</label>
+                    <input type="number" id="heightInput" min="50" max="500" value="200">
+                </div>
+                <div class="control-group">
+                    <label for="colorSelect">簽名顏色:</label>
+                    <select id="colorSelect">
+                        <option value="#000000">黑色</option>
+                        <option value="#FF0000">紅色</option>
+                        <option value="#0000FF">藍色</option>
+                        <option value="#008000">綠色</option>
+                    </select>
+                </div>
+                <div class="control-group">
+                    <label for="thicknessSelect">線條粗細:</label>
+                    <select id="thicknessSelect">
+                        <option value="1">極細</option>
+                        <option value="2" selected>細</option>
+                        <option value="4">中等</option>
+                        <option value="6">粗</option>
+                        <option value="8">極粗</option>
+                    </select>
+                </div>
+            </div>
+            
+            <div class="buttons">
+                <button class="apply-btn" id="applyBtn">應用設置</button>
+            </div>
+            
+            <!-- 簽名區域 -->
+            <div class="signature-area">
+                <div class="signature-pad-container">
+                    <div class="signature-pad" id="signaturePad"></div>
+                    <div class="size-info" id="sizeInfo">當前尺寸: 500px × 200px</div>
+                </div>
+                
+                <div class="buttons">
+                    <button class="clear-btn" id="clearBtn">清除簽名</button>
+                    <button class="save-btn" id="saveBtn">保存簽名</button>
+                    <button class="download-btn" id="downloadBtn">下載簽名</button>
+                </div>
+            </div>
+            
+            <!-- 結果區域 -->
+            <div class="signature-result">
+                <h3 class="result-title">您的簽名預覽</h3>
+                <div id="signatureResult"></div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Footer 區域 -->
+    <footer>
+      <div class="copyright">
+          &copy; 2023 數位簽名系統 版權所有
+      </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // 獲取DOM元素
+            const signaturePad = document.getElementById('signaturePad');
+            const clearBtn = document.getElementById('clearBtn');
+            const saveBtn = document.getElementById('saveBtn');
+            const downloadBtn = document.getElementById('downloadBtn');
+            const applyBtn = document.getElementById('applyBtn');
+            const signatureResult = document.getElementById('signatureResult');
+            const widthInput = document.getElementById('widthInput');
+            const heightInput = document.getElementById('heightInput');
+            const colorSelect = document.getElementById('colorSelect');
+            const thicknessSelect = document.getElementById('thicknessSelect');
+            const sizeInfo = document.getElementById('sizeInfo');
+            
+            // 繪圖狀態變量
+            let isDrawing = false;
+            let lastX = 0;
+            let lastY = 0;
+            let canvas;
+            let ctx;
+            let currentWidth = 500;
+            let currentHeight = 200;
+            
+            // 初始化畫布
+            function initCanvas(width, height) {
+                // 移除舊的畫布（如果存在）
+                if (canvas) {
+                    signaturePad.removeChild(canvas);
+                }
+                
+                // 設置簽名區域尺寸
+                signaturePad.style.width = width + 'px';
+                signaturePad.style.height = height + 'px';
+                currentWidth = width;
+                currentHeight = height;
+                updateSizeInfo();
+                
+                // 創建新畫布
+                canvas = document.createElement('canvas');
+                canvas.width = width;
+                canvas.height = height;
+                ctx = canvas.getContext('2d');
+                
+                // 設置初始繪圖樣式
+                updateDrawingStyle();
+                
+                // 設置白色背景
+                ctx.fillStyle = '#ffffff';
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+                
+                signaturePad.appendChild(canvas);
+                
+                // 重新綁定事件
+                bindCanvasEvents();
+            }
+            
+            // 更新繪圖樣式（顏色和粗細）
+            function updateDrawingStyle() {
+                if (ctx) {
+                    ctx.strokeStyle = colorSelect.value;
+                    ctx.lineWidth = parseInt(thicknessSelect.value);
+                    ctx.lineCap = 'round';
+                    ctx.lineJoin = 'round';
+                }
+            }
+            
+            // 綁定畫布事件
+            function bindCanvasEvents() {
+                // 開始繪製
+                canvas.addEventListener('mousedown', startDrawing);
+                canvas.addEventListener('touchstart', handleTouchStart, { passive: false });
+                
+                // 繪製中
+                canvas.addEventListener('mousemove', draw);
+                canvas.addEventListener('touchmove', handleTouchMove, { passive: false });
+                
+                // 結束繪製
+                canvas.addEventListener('mouseup', stopDrawing);
+                canvas.addEventListener('mouseout', stopDrawing);
+                canvas.addEventListener('touchend', stopDrawing);
+            }
+            
+            // 更新尺寸信息顯示
+            function updateSizeInfo() {
+                sizeInfo.textContent = `當前尺寸: ${currentWidth}px × ${currentHeight}px`;
+            }
+            
+            // 初始化
+            initCanvas(currentWidth, currentHeight);
+            
+            // 應用設置按鈕
+            applyBtn.addEventListener('click', function() {
+                const newWidth = parseInt(widthInput.value);
+                const newHeight = parseInt(heightInput.value);
+                
+                if (newWidth >= 100 && newWidth <= 1000 && newHeight >= 50 && newHeight <= 500) {
+                    // 保存當前簽名（如果有）
+                    const dataURL = canvas.toDataURL('image/png');
+                    
+                    // 初始化新畫布
+                    initCanvas(newWidth, newHeight);
+                    
+                    // 如果有之前的簽名，恢復它
+                    if (dataURL !== 'data:,') {
+                        const img = new Image();
+                        img.onload = function() {
+                            ctx.drawImage(img, 0, 0);
+                        };
+                        img.src = dataURL;
+                    }
+                    
+                    // 更新繪圖樣式
+                    updateDrawingStyle();
+                } else {
+                    alert('請輸入有效的寬高值（寬度100-1000px，高度50-500px）');
+                }
+            });
+            
+            // 顏色和粗細選擇變化時更新繪圖樣式
+            colorSelect.addEventListener('change', updateDrawingStyle);
+            thicknessSelect.addEventListener('change', updateDrawingStyle);
+            
+            // 繪圖相關函數
+            function startDrawing(e) {
+                e.preventDefault();
+                isDrawing = true;
+                const pos = getPosition(e);
+                lastX = pos.x;
+                lastY = pos.y;
+            }
+            
+            function handleTouchStart(e) {
+                if (e.touches.length === 1) {
+                    e.preventDefault();
+                    const touch = e.touches[0];
+                    const mouseEvent = new MouseEvent('mousedown', {
+                        clientX: touch.clientX,
+                        clientY: touch.clientY
+                    });
+                    canvas.dispatchEvent(mouseEvent);
+                }
+            }
+            
+            function draw(e) {
+                if (!isDrawing) return;
+                e.preventDefault();
+                
+                const pos = getPosition(e);
+                
+                ctx.beginPath();
+                ctx.moveTo(lastX, lastY);
+                ctx.lineTo(pos.x, pos.y);
+                ctx.stroke();
+                
+                lastX = pos.x;
+                lastY = pos.y;
+            }
+            
+            function handleTouchMove(e) {
+                if (e.touches.length === 1) {
+                    e.preventDefault();
+                    const touch = e.touches[0];
+                    const mouseEvent = new MouseEvent('mousemove', {
+                        clientX: touch.clientX,
+                        clientY: touch.clientY
+                    });
+                    canvas.dispatchEvent(mouseEvent);
+                }
+            }
+            
+            function stopDrawing() {
+                isDrawing = false;
+            }
+            
+            function getPosition(e) {
+                let x, y;
+                const rect = canvas.getBoundingClientRect();
+                
+                if (e.type.includes('touch')) {
+                    x = e.touches[0].clientX - rect.left;
+                    y = e.touches[0].clientY - rect.top;
+                } else {
+                    x = e.clientX - rect.left;
+                    y = e.clientY - rect.top;
+                }
+                return { x, y };
+            }
+            
+            // 功能按鈕函數
+            function clearSignature() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                ctx.fillStyle = '#ffffff';
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+                signatureResult.innerHTML = '';
+            }
+            
+            function saveSignature() {
+                const dataURL = canvas.toDataURL('image/png');
+                signatureResult.innerHTML = `
+                    <div style="margin-bottom: 0.5rem;">簽名尺寸: ${currentWidth}px × ${currentHeight}px</div>
+                    <div style="margin-bottom: 0.5rem;">簽名顏色: ${colorSelect.options[colorSelect.selectedIndex].text}</div>
+                    <div style="margin-bottom: 0.5rem;">線條粗細: ${thicknessSelect.options[thicknessSelect.selectedIndex].text}</div>
+                    <img id="signatureImage" src="${dataURL}" alt="您的簽名">
+                `;
+            }
+            
+            function downloadSignature() {
+                const dataURL = canvas.toDataURL('image/png');
+                const link = document.createElement('a');
+                link.download = `signature_${currentWidth}x${currentHeight}_${new Date().getTime()}.png`;
+                link.href = dataURL;
+                link.click();
+            }
+            
+            // 綁定按鈕事件
+            clearBtn.addEventListener('click', clearSignature);
+            saveBtn.addEventListener('click', saveSignature);
+            downloadBtn.addEventListener('click', downloadSignature);
+            
+            // 防止觸控設備上的頁面滾動
+            document.body.addEventListener('touchmove', function(e) {
+                if (isDrawing) {
+                    e.preventDefault();
+                }
+            }, { passive: false });
+        });
+    </script>
+</body>
+</html>
