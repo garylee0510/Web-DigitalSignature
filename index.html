@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Digital Signature</title>
     <style>
-        /* ¥ş§½¼Ë¦¡ */
+        /* å…¨å±€æ¨£å¼ */
         * {
             box-sizing: border-box;
             margin: 0;
@@ -22,7 +22,7 @@
             line-height: 1.6;
         }
         
-        /* Header ¼Ë¦¡ */
+        /* Header æ¨£å¼ */
         header {
             background-color: #2c3e50;
             color: white;
@@ -49,7 +49,7 @@
             opacity: 0.8;
         }
         
-        /* Main Container ¼Ë¦¡ */
+        /* Main Container æ¨£å¼ */
         .main-container {
             flex: 1;
             padding: 2rem;
@@ -66,7 +66,7 @@
             margin-bottom: 2rem;
         }
         
-        /* Controls ¼Ë¦¡ */
+        /* Controls æ¨£å¼ */
         .controls {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -93,7 +93,7 @@
             font-size: 0.9rem;
         }
         
-        /* Signature Pad ¼Ë¦¡ */
+        /* Signature Pad æ¨£å¼ */
         .signature-area {
             margin: 1.5rem 0;
         }
@@ -107,7 +107,7 @@
             background-color: #f9f9f9;
             cursor: crosshair;
             margin: 0 auto;
-            touch-action: none; /* ¨¾¤îÄ²±±³]³Æ¤Wªººu°Ê */
+            touch-action: none; /* é˜²æ­¢è§¸æ§è¨­å‚™ä¸Šçš„æ»¾å‹• */
         }
         
         .size-info {
@@ -117,7 +117,7 @@
             margin-top: 0.5rem;
         }
         
-        /* Buttons ¼Ë¦¡ */
+        /* Buttons æ¨£å¼ */
         .buttons {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
@@ -161,7 +161,7 @@
             grid-column: 1 / -1;
         }
         
-        /* Result ¼Ë¦¡ */
+        /* Result æ¨£å¼ */
         .signature-result {
             margin-top: 2rem;
             padding: 1.5rem;
@@ -184,7 +184,7 @@
             padding: 0.5rem;
         }
         
-        /* Footer ¼Ë¦¡ */
+        /* Footer æ¨£å¼ */
         footer {
             background-color: #2c3e50;
             color: white;
@@ -202,7 +202,7 @@
             opacity: 0.8;
         }
         
-        /* ÅTÀ³¦¡½Õ¾ã */
+        /* éŸ¿æ‡‰å¼èª¿æ•´ */
         @media (max-width: 768px) {
             .header-content {
                 flex-direction: column;
@@ -220,83 +220,83 @@
     </style>
 </head>
 <body>
-    <!-- Header °Ï°ì -->
+    <!-- Header å€åŸŸ -->
     <header>
         <div class="header-content">
             <div class="logo">Digital Signature</div>
         </div>
     </header>
     
-    <!-- Main Container °Ï°ì -->
+    <!-- Main Container å€åŸŸ -->
     <div class="main-container">
         <div class="signature-app">
-            <!-- ±±¨î­±ªO -->
+            <!-- æ§åˆ¶é¢æ¿ -->
             <div class="controls">
                 <div class="control-group">
-                    <label for="widthInput">¼e«× (px):</label>
+                    <label for="widthInput">å¯¬åº¦ (px):</label>
                     <input type="number" id="widthInput" min="100" max="1000" value="500">
                 </div>
                 <div class="control-group">
-                    <label for="heightInput">°ª«× (px):</label>
+                    <label for="heightInput">é«˜åº¦ (px):</label>
                     <input type="number" id="heightInput" min="50" max="500" value="200">
                 </div>
                 <div class="control-group">
-                    <label for="colorSelect">Ã±¦WÃC¦â:</label>
+                    <label for="colorSelect">ç°½åé¡è‰²:</label>
                     <select id="colorSelect">
-                        <option value="#000000">¶Â¦â</option>
-                        <option value="#FF0000">¬õ¦â</option>
-                        <option value="#0000FF">ÂÅ¦â</option>
-                        <option value="#008000">ºñ¦â</option>
+                        <option value="#000000">é»‘è‰²</option>
+                        <option value="#FF0000">ç´…è‰²</option>
+                        <option value="#0000FF">è—è‰²</option>
+                        <option value="#008000">ç¶ è‰²</option>
                     </select>
                 </div>
                 <div class="control-group">
-                    <label for="thicknessSelect">½u±ø²Ê²Ó:</label>
+                    <label for="thicknessSelect">ç·šæ¢ç²—ç´°:</label>
                     <select id="thicknessSelect">
-                        <option value="1">·¥²Ó</option>
-                        <option value="2" selected>²Ó</option>
-                        <option value="4">¤¤µ¥</option>
-                        <option value="6">²Ê</option>
-                        <option value="8">·¥²Ê</option>
+                        <option value="1">æ¥µç´°</option>
+                        <option value="2" selected>ç´°</option>
+                        <option value="4">ä¸­ç­‰</option>
+                        <option value="6">ç²—</option>
+                        <option value="8">æ¥µç²—</option>
                     </select>
                 </div>
             </div>
             
             <div class="buttons">
-                <button class="apply-btn" id="applyBtn">À³¥Î³]¸m</button>
+                <button class="apply-btn" id="applyBtn">æ‡‰ç”¨è¨­ç½®</button>
             </div>
             
-            <!-- Ã±¦W°Ï°ì -->
+            <!-- ç°½åå€åŸŸ -->
             <div class="signature-area">
                 <div class="signature-pad-container">
                     <div class="signature-pad" id="signaturePad"></div>
-                    <div class="size-info" id="sizeInfo">·í«e¤Ø¤o: 500px ¡Ñ 200px</div>
+                    <div class="size-info" id="sizeInfo">ç•¶å‰å°ºå¯¸: 500px Ã— 200px</div>
                 </div>
                 
                 <div class="buttons">
-                    <button class="clear-btn" id="clearBtn">²M°£Ã±¦W</button>
-                    <button class="save-btn" id="saveBtn">«O¦sÃ±¦W</button>
-                    <button class="download-btn" id="downloadBtn">¤U¸üÃ±¦W</button>
+                    <button class="clear-btn" id="clearBtn">æ¸…é™¤ç°½å</button>
+                    <button class="save-btn" id="saveBtn">ä¿å­˜ç°½å</button>
+                    <button class="download-btn" id="downloadBtn">ä¸‹è¼‰ç°½å</button>
                 </div>
             </div>
             
-            <!-- µ²ªG°Ï°ì -->
+            <!-- çµæœå€åŸŸ -->
             <div class="signature-result">
-                <h3 class="result-title">±zªºÃ±¦W¹wÄı</h3>
+                <h3 class="result-title">æ‚¨çš„ç°½åé è¦½</h3>
                 <div id="signatureResult"></div>
             </div>
         </div>
     </div>
     
-    <!-- Footer °Ï°ì -->
+    <!-- Footer å€åŸŸ -->
     <footer>
       <div class="copyright">
-          &copy; 2023 ¼Æ¦ìÃ±¦W¨t²Î ª©Åv©Ò¦³
+          &copy; 2023 æ•¸ä½ç°½åç³»çµ± ç‰ˆæ¬Šæ‰€æœ‰
       </div>
     </footer>
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            // Àò¨úDOM¤¸¯À
+            // ç²å–DOMå…ƒç´ 
             const signaturePad = document.getElementById('signaturePad');
             const clearBtn = document.getElementById('clearBtn');
             const saveBtn = document.getElementById('saveBtn');
@@ -309,7 +309,7 @@
             const thicknessSelect = document.getElementById('thicknessSelect');
             const sizeInfo = document.getElementById('sizeInfo');
             
-            // Ã¸¹Ïª¬ºAÅÜ¶q
+            // ç¹ªåœ–ç‹€æ…‹è®Šé‡
             let isDrawing = false;
             let lastX = 0;
             let lastY = 0;
@@ -318,40 +318,40 @@
             let currentWidth = 500;
             let currentHeight = 200;
             
-            // ªì©l¤Æµe¥¬
+            // åˆå§‹åŒ–ç•«å¸ƒ
             function initCanvas(width, height) {
-                // ²¾°£ÂÂªºµe¥¬¡]¦pªG¦s¦b¡^
+                // ç§»é™¤èˆŠçš„ç•«å¸ƒï¼ˆå¦‚æœå­˜åœ¨ï¼‰
                 if (canvas) {
                     signaturePad.removeChild(canvas);
                 }
                 
-                // ³]¸mÃ±¦W°Ï°ì¤Ø¤o
+                // è¨­ç½®ç°½åå€åŸŸå°ºå¯¸
                 signaturePad.style.width = width + 'px';
                 signaturePad.style.height = height + 'px';
                 currentWidth = width;
                 currentHeight = height;
                 updateSizeInfo();
                 
-                // ³Ğ«Ø·sµe¥¬
+                // å‰µå»ºæ–°ç•«å¸ƒ
                 canvas = document.createElement('canvas');
                 canvas.width = width;
                 canvas.height = height;
                 ctx = canvas.getContext('2d');
                 
-                // ³]¸mªì©lÃ¸¹Ï¼Ë¦¡
+                // è¨­ç½®åˆå§‹ç¹ªåœ–æ¨£å¼
                 updateDrawingStyle();
                 
-                // ³]¸m¥Õ¦â­I´º
+                // è¨­ç½®ç™½è‰²èƒŒæ™¯
                 ctx.fillStyle = '#ffffff';
                 ctx.fillRect(0, 0, canvas.width, canvas.height);
                 
                 signaturePad.appendChild(canvas);
                 
-                // ­«·s¸j©w¨Æ¥ó
+                // é‡æ–°ç¶å®šäº‹ä»¶
                 bindCanvasEvents();
             }
             
-            // §ó·sÃ¸¹Ï¼Ë¦¡¡]ÃC¦â©M²Ê²Ó¡^
+            // æ›´æ–°ç¹ªåœ–æ¨£å¼ï¼ˆé¡è‰²å’Œç²—ç´°ï¼‰
             function updateDrawingStyle() {
                 if (ctx) {
                     ctx.strokeStyle = colorSelect.value;
@@ -361,43 +361,43 @@
                 }
             }
             
-            // ¸j©wµe¥¬¨Æ¥ó
+            // ç¶å®šç•«å¸ƒäº‹ä»¶
             function bindCanvasEvents() {
-                // ¶}©lÃ¸»s
+                // é–‹å§‹ç¹ªè£½
                 canvas.addEventListener('mousedown', startDrawing);
                 canvas.addEventListener('touchstart', handleTouchStart, { passive: false });
                 
-                // Ã¸»s¤¤
+                // ç¹ªè£½ä¸­
                 canvas.addEventListener('mousemove', draw);
                 canvas.addEventListener('touchmove', handleTouchMove, { passive: false });
                 
-                // µ²§ôÃ¸»s
+                // çµæŸç¹ªè£½
                 canvas.addEventListener('mouseup', stopDrawing);
                 canvas.addEventListener('mouseout', stopDrawing);
                 canvas.addEventListener('touchend', stopDrawing);
             }
             
-            // §ó·s¤Ø¤o«H®§Åã¥Ü
+            // æ›´æ–°å°ºå¯¸ä¿¡æ¯é¡¯ç¤º
             function updateSizeInfo() {
-                sizeInfo.textContent = `·í«e¤Ø¤o: ${currentWidth}px ¡Ñ ${currentHeight}px`;
+                sizeInfo.textContent = `ç•¶å‰å°ºå¯¸: ${currentWidth}px Ã— ${currentHeight}px`;
             }
             
-            // ªì©l¤Æ
+            // åˆå§‹åŒ–
             initCanvas(currentWidth, currentHeight);
             
-            // À³¥Î³]¸m«ö¶s
+            // æ‡‰ç”¨è¨­ç½®æŒ‰éˆ•
             applyBtn.addEventListener('click', function() {
                 const newWidth = parseInt(widthInput.value);
                 const newHeight = parseInt(heightInput.value);
                 
                 if (newWidth >= 100 && newWidth <= 1000 && newHeight >= 50 && newHeight <= 500) {
-                    // «O¦s·í«eÃ±¦W¡]¦pªG¦³¡^
+                    // ä¿å­˜ç•¶å‰ç°½åï¼ˆå¦‚æœæœ‰ï¼‰
                     const dataURL = canvas.toDataURL('image/png');
                     
-                    // ªì©l¤Æ·sµe¥¬
+                    // åˆå§‹åŒ–æ–°ç•«å¸ƒ
                     initCanvas(newWidth, newHeight);
                     
-                    // ¦pªG¦³¤§«eªºÃ±¦W¡A«ì´_¥¦
+                    // å¦‚æœæœ‰ä¹‹å‰çš„ç°½åï¼Œæ¢å¾©å®ƒ
                     if (dataURL !== 'data:,') {
                         const img = new Image();
                         img.onload = function() {
@@ -406,18 +406,18 @@
                         img.src = dataURL;
                     }
                     
-                    // §ó·sÃ¸¹Ï¼Ë¦¡
+                    // æ›´æ–°ç¹ªåœ–æ¨£å¼
                     updateDrawingStyle();
                 } else {
-                    alert('½Ğ¿é¤J¦³®Äªº¼e°ª­È¡]¼e«×100-1000px¡A°ª«×50-500px¡^');
+                    alert('è«‹è¼¸å…¥æœ‰æ•ˆçš„å¯¬é«˜å€¼ï¼ˆå¯¬åº¦100-1000pxï¼Œé«˜åº¦50-500pxï¼‰');
                 }
             });
             
-            // ÃC¦â©M²Ê²Ó¿ï¾ÜÅÜ¤Æ®É§ó·sÃ¸¹Ï¼Ë¦¡
+            // é¡è‰²å’Œç²—ç´°é¸æ“‡è®ŠåŒ–æ™‚æ›´æ–°ç¹ªåœ–æ¨£å¼
             colorSelect.addEventListener('change', updateDrawingStyle);
             thicknessSelect.addEventListener('change', updateDrawingStyle);
             
-            // Ã¸¹Ï¬ÛÃö¨ç¼Æ
+            // ç¹ªåœ–ç›¸é—œå‡½æ•¸
             function startDrawing(e) {
                 e.preventDefault();
                 isDrawing = true;
@@ -483,7 +483,7 @@
                 return { x, y };
             }
             
-            // ¥\¯à«ö¶s¨ç¼Æ
+            // åŠŸèƒ½æŒ‰éˆ•å‡½æ•¸
             function clearSignature() {
                 ctx.clearRect(0, 0, canvas.width, canvas.height);
                 ctx.fillStyle = '#ffffff';
@@ -494,10 +494,10 @@
             function saveSignature() {
                 const dataURL = canvas.toDataURL('image/png');
                 signatureResult.innerHTML = `
-                    <div style="margin-bottom: 0.5rem;">Ã±¦W¤Ø¤o: ${currentWidth}px ¡Ñ ${currentHeight}px</div>
-                    <div style="margin-bottom: 0.5rem;">Ã±¦WÃC¦â: ${colorSelect.options[colorSelect.selectedIndex].text}</div>
-                    <div style="margin-bottom: 0.5rem;">½u±ø²Ê²Ó: ${thicknessSelect.options[thicknessSelect.selectedIndex].text}</div>
-                    <img id="signatureImage" src="${dataURL}" alt="±zªºÃ±¦W">
+                    <div style="margin-bottom: 0.5rem;">ç°½åå°ºå¯¸: ${currentWidth}px Ã— ${currentHeight}px</div>
+                    <div style="margin-bottom: 0.5rem;">ç°½åé¡è‰²: ${colorSelect.options[colorSelect.selectedIndex].text}</div>
+                    <div style="margin-bottom: 0.5rem;">ç·šæ¢ç²—ç´°: ${thicknessSelect.options[thicknessSelect.selectedIndex].text}</div>
+                    <img id="signatureImage" src="${dataURL}" alt="æ‚¨çš„ç°½å">
                 `;
             }
             
@@ -509,12 +509,12 @@
                 link.click();
             }
             
-            // ¸j©w«ö¶s¨Æ¥ó
+            // ç¶å®šæŒ‰éˆ•äº‹ä»¶
             clearBtn.addEventListener('click', clearSignature);
             saveBtn.addEventListener('click', saveSignature);
             downloadBtn.addEventListener('click', downloadSignature);
             
-            // ¨¾¤îÄ²±±³]³Æ¤Wªº­¶­±ºu°Ê
+            // é˜²æ­¢è§¸æ§è¨­å‚™ä¸Šçš„é é¢æ»¾å‹•
             document.body.addEventListener('touchmove', function(e) {
                 if (isDrawing) {
                     e.preventDefault();
